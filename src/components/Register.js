@@ -15,13 +15,12 @@ const Register = () => {
 
     const handleInputChange = event => {
         const {name, value} = event.target
-        if (name==='role'){
+        if (name === 'role') {
             console.log(value)
-            if (value==='student'){
+            if (value === 'student') {
                 console.log("if")
                 setUser({...user, [name]: 'lecturer'})
-            }
-            else{
+            } else {
                 setUser({...user, [name]: 'student'})
             }
             return
@@ -49,32 +48,52 @@ const Register = () => {
 
     return (
         <form className={"form-check"} autoComplete="off">
-            <div>
-                <label>Surname</label>
-                <input type="text" value={user.surname} name="surname" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Surname</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Surname"} type="text" value={user.surname}
+                           name="surname"
+                           onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>First Name</label>
-                <input type="text" value={user.firstName} name="firstName" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">First Name</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"First Name"} type="text" value={user.firstName}
+                           name="firstName" onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>Patronymic</label>
-                <input type="text" value={user.patronymic} name="patronymic" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Patronymic</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Patronymic"} type="text" value={user.patronymic}
+                           name="patronymic" onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>Username</label>
-                <input type="text" value={user.username} name="username" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Username</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Username"} type="text" value={user.username}
+                           name="username" onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>Password</label>
-                <input value={user.password} name="password" type="password" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Password</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Password"} value={user.password} name="password"
+                           type="password" onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>Student</label>
-                <input checked={user.role==='student'} value={user.role} name="role" type="checkbox" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Student</label>
+                <div className="col-sm-10">
+                    <input checked={user.role === 'student'}
+                           value={user.role} name="role" type="checkbox"
+                           onChange={handleInputChange}/>
+                </div>
             </div>
             <Link to={"/login"}>
-            <button type="button" onClick={register}>Register</button>
+                <button className={"btn btn-primary"} type="button" onClick={register}>Register</button>
             </Link>
         </form>
     )

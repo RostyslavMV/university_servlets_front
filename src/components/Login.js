@@ -11,7 +11,7 @@ const Login = props => {
         setUser({...user, [name]: value})
     };
 
-    if(props.loggedIn===true){
+    if (props.loggedIn === true) {
         return <Redirect to="/"/>
     }
 
@@ -27,17 +27,17 @@ const Login = props => {
             }
         }).then(res => {
             console.log("logIn res")
-            sessionStorage.setItem('user',qs.stringify({
-                token:res.data.token,
-                role:res.data.role,
-                firstName:res.data.firstName,
-                surname:res.data.surname
+            sessionStorage.setItem('user', qs.stringify({
+                token: res.data.token,
+                role: res.data.role,
+                firstName: res.data.firstName,
+                surname: res.data.surname
             }))
             props.setUser({
-                token:res.data.token,
-                role:res.data.role,
-                firstName:res.data.firstName,
-                surname:res.data.surname
+                token: res.data.token,
+                role: res.data.role,
+                firstName: res.data.firstName,
+                surname: res.data.surname
             })
             props.setLoggedIn(true)
         }).catch(error => console.log(error))
@@ -45,15 +45,21 @@ const Login = props => {
 
     return (
         <form className={"form-check"} autoComplete="off">
-            <div>
-                <label>Username</label>
-                <input type="text" value={user.username} name="username" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Username</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Username"} type="text" value={user.username}
+                           name="username" onChange={handleInputChange}/>
+                </div>
             </div>
-            <div>
-                <label>Password</label>
-                <input value={user.password} name="password" type="password" onChange={handleInputChange}/>
+            <div className="form-group row">
+                <label className="col-sm-2 col-form-label">Password</label>
+                <div className="col-sm-10">
+                    <input className="form-control" placeholder={"Password"} value={user.password} name="password"
+                           type="password" onChange={handleInputChange}/>
+                </div>
             </div>
-                <button type="button" onClick={logIn}>Log in</button>
+            <button className={"btn btn-primary"} type="button" onClick={logIn}>Log in</button>
         </form>
     )
 }

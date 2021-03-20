@@ -38,24 +38,27 @@ function Content() {
         <div>
             <BrowserRouter>
                 <NavBar user={user} loggedIn={loggedIn} logOut={logOut}/>
-                <Route path="/register">
-                    <Register/>
-                </Route>
-                <Route path="/login">
-                    <Login initialUser={initialUser} setUser={setUser} setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
-                </Route>
-                <Route path={"/"}>
-                    {(user.role === "student") &&
-                    <div>
-                        <Student token={user.token} loggedIn={loggedIn}/>
-                    </div>
-                    }
-                    {(user.role === "lecturer") &&
-                    <div>
-                        <Lecturer token={user.token}/>
-                    </div>
-                    }
-                </Route>
+                <div className={"container"}>
+                    <Route exact path="/register">
+                        <Register/>
+                    </Route>
+                    <Route exact path="/login">
+                        <Login initialUser={initialUser} setUser={setUser} setLoggedIn={setLoggedIn}
+                               loggedIn={loggedIn}/>
+                    </Route>
+                    <Route exact path={"/"}>
+                        {(user.role === "student") &&
+                        <div>
+                            <Student token={user.token} loggedIn={loggedIn}/>
+                        </div>
+                        }
+                        {(user.role === "lecturer") &&
+                        <div>
+                            <Lecturer token={user.token} loggedIn={loggedIn}/>
+                        </div>
+                        }
+                    </Route>
+                </div>
             </BrowserRouter>
         </div>
     );
