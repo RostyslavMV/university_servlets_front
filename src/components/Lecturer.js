@@ -54,11 +54,9 @@ const Lecturer = props => {
     )
 
     const getCourses = () => {
-        axios.get('http://localhost:8080/enrollment', {
-            params: {
-                token: props.token
-            },
+        axios.get('http://localhost:8180/enrollment', {
             headers: {
+                'Authorization': 'bearer ' + props.token,
                 'Content-Type': 'application/json'
             }
         }).then(resp => {
@@ -68,11 +66,11 @@ const Lecturer = props => {
     }
 
     const addCourse = () => {
-        axios.post('http://localhost:8080/lecturer/course', {
+        axios.post('http://localhost:8180/courses', {
             name: course.name,
-            token: props.token
         }, {
             headers: {
+                'Authorization': 'bearer ' + props.token,
                 'Content-Type': 'application/json'
             }
         }).then(resp => {
@@ -83,13 +81,14 @@ const Lecturer = props => {
     }
 
     const addMark = (enr, courseId) => {
-        axios.put('http://localhost:8080/enrollment', {
+        axios.post('http://localhost:8180/enrollment/mark', {
             studentId: enr.studentId,
             courseId: courseId,
             mark: enr.mark,
             review: enr.review
         }, {
             headers: {
+                'Authorization': 'bearer ' + props.token,
                 'Content-Type': 'application/json'
             }
         }).then(resp => {
@@ -106,6 +105,22 @@ const Lecturer = props => {
                         isReviewed: true
                     } : enrollment))
             } : course)))
+        }).catch(error => console.log(error))
+    }
+
+    const removeStudent = (courseId, studentId) => {
+        axios.post('http://localhost:8180/enrollment/lecturer/remove',
+            {
+                studentId: studentId,
+                courseId: courseId
+            }, {
+                headers: {
+                    'Authorization': 'bearer ' + props.token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp => {
+            console.log(resp.data)
+            getCourses()
         }).catch(error => console.log(error))
     }
 
@@ -175,6 +190,9 @@ const Lecturer = props => {
                                         <td>
                                             <button type="button" className={"btn btn-success"}
                                                     onClick={() => addMark(enrollment, course.courseId)}>Put mark
+                                            </button>
+                                            <button type="button" className={"btn btn-danger"}
+                                                    onClick={() => removeStudent(course.courseId,enrollment.studentId)}>Remove
                                             </button>
                                         </td>
                                     </tr>

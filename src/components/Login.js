@@ -15,31 +15,46 @@ const Login = props => {
         return <Redirect to="/"/>
     }
 
+    const getUserInfo = (token) => {
+        axios.get('http://localhost:8180/user', {
+            headers: {
+                'Authorization': 'bearer ' + token
+            }
+        }).then(resp => {
+            sessionStorage.setItem('user', qs.stringify({
+                role: resp.data.role,
+                firstName: resp.data.firstName,
+                surname: resp.data.surname,
+                token: token
+            }))
+            props.setUser({
+                role: resp.data.role,
+                firstName: resp.data.firstName,
+                surname: resp.data.surname,
+                token: token
+            })
+        })
+    }
+
     const logIn = () => {
         console.log("logIn start")
         console.log(user)
-        axios.post('http://localhost:8080/login', {
+        axios.post('http://localhost:8080/auth/realms/University/protocol/openid-connect/token', qs.stringify({
+            client_id: "university-app",
             username: user.username,
-            password: user.password
-        }, {
+            password: user.password,
+            grant_type: "password",
+            client_secret: "c63c0bb0-bcf5-47b2-851e-0fb17550340f"
+        }), {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(res => {
             console.log("logIn res")
-            sessionStorage.setItem('user', qs.stringify({
-                token: res.data.token,
-                role: res.data.role,
-                firstName: res.data.firstName,
-                surname: res.data.surname
-            }))
-            props.setUser({
-                token: res.data.token,
-                role: res.data.role,
-                firstName: res.data.firstName,
-                surname: res.data.surname
-            })
+            getUserInfo(res.data.access_token)
             props.setLoggedIn(true)
+            console.log(res.data.access_token)
+            console.log(user)
         }).catch(error => console.log(error))
     }
 

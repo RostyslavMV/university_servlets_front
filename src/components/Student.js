@@ -23,11 +23,9 @@ const Student = props => {
     )
 
     const getCourses = () => {
-        axios.get('http://localhost:8080/student/course', {
-            params: {
-                token: props.token
-            },
+        axios.get('http://localhost:8180/courses', {
             headers: {
+                'Authorization': 'bearer ' + props.token,
                 'Content-Type': 'application/json'
             }
         }).then(resp => {
@@ -38,14 +36,29 @@ const Student = props => {
     }
 
     const enroll = (courseId) => {
-        axios.post('http://localhost:8080/enrollment', {
-            token: props.token,
+        axios.post('http://localhost:8180/enrollment', {
             courseId: courseId
         }, {
             headers: {
+                'Authorization': 'bearer ' + props.token,
                 'Content-Type': 'application/json'
             }
         }).then(resp => {
+            console.log(resp.data)
+            getCourses()
+        }).catch(error => console.log(error))
+    }
+
+    const unenroll = (courseId) => {
+        axios.post('http://localhost:8180/enrollment/unenroll',
+            {
+                courseId: courseId
+            }, {
+                headers: {
+                    'Authorization': 'bearer ' + props.token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp => {
             console.log(resp.data)
             getCourses()
         }).catch(error => console.log(error))
@@ -62,6 +75,7 @@ const Student = props => {
                         <th scope="col">Lecturer</th>
                         <th scope="col">Mark</th>
                         <th scope="col">Review</th>
+                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,6 +92,11 @@ const Student = props => {
                             </td>
                             <td>
                                 {course.review}
+                            </td>
+                            <td>
+                                <button type="button" className={"btn btn-danger"}
+                                        onClick={() => unenroll(course.id)}>Unenroll
+                                </button>
                             </td>
                         </tr>
                     ))}

@@ -1,5 +1,4 @@
 import {BrowserRouter, Route} from "react-router-dom";
-import Register from "./Register";
 import Login from "./Login";
 import React, {useState, useEffect} from 'react';
 import NavBar from "./NavBar";
@@ -39,9 +38,6 @@ function Content() {
             <BrowserRouter>
                 <NavBar user={user} loggedIn={loggedIn} logOut={logOut}/>
                 <div className={"container"}>
-                    <Route exact path="/register">
-                        <Register/>
-                    </Route>
                     <Route exact path="/login">
                         <Login initialUser={initialUser} setUser={setUser} setLoggedIn={setLoggedIn}
                                loggedIn={loggedIn}/>

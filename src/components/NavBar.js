@@ -15,7 +15,6 @@ const NavBar = props => {
                         {props.loggedIn && <Link to="/" onClick={props.logOut}> Log Out</Link>}
                         {(!props.loggedIn) && <Link to="/login"> Log In</Link>}
                     </span>
-                <Link to="/register">Register</Link>
                 </span>
             </nav>
         </header>
